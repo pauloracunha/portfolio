@@ -7,6 +7,7 @@ import Article from "@/components/Article";
 import Container from "@/components/Container";
 import Card from "@/components/Card";
 import Link from "next/link";
+import Tooltip from "@/components/Tooltip";
 
 export default function Home() {
   const skills = {
@@ -31,15 +32,8 @@ export default function Home() {
   };
   const workExperience = [
     {
-      position: "Technical Lead at TRIVOD",
-      dates: "April 2022 - Present",
-      responsibilities: [
-        "Team leadership and project management for three distinct products.",
-      ],
-    },
-    {
       position: "Senior Developer at TRIVOD",
-      dates: "July 2020 - March 2022",
+      dates: "July 2020 - Present",
       responsibilities: [
         "Development of API for a sweepstakes platform, resulting in a contract with a major TV network.",
         "Identifying security vulnerabilities in VTEX stores.",
@@ -83,39 +77,40 @@ export default function Home() {
       ],
     },
   ];
+  const otherSkills = [
+    "Agile Methodologies (Scrum, Kanban)",
+    "Project Management Tools (Jira, Trello)",
+    "Git and Version Control",
+    "Effective Communication and Teamwork",
+  ];
   return (
     <main className="bg-gray-800 text-white">
       <header className="contents h-screen">
         <nav className="pt-3">
-          <ul className="flex justify-center text-gray-400">
+          <ul className="flex justify-around md:justify-center text-gray-400">
             <li className="flex">
               <a className="p-6" href="/">
                 Home
               </a>
             </li>
-            <li className="flex">
-              <a className="p-6" href="/">
+            <li className="p-6 cursor-pointer">
+              <Tooltip content={`I'm "engaging warp drive" on this task.`}>
                 Blog
-              </a>
-            </li>
-            <li className="flex">
-              <a className="p-6" href="/">
-                Portfolio
-              </a>
+              </Tooltip>
             </li>
           </ul>
         </nav>
-        <Container>
+        <Container className="">
           <Section className="grid grid-cols-1 md:grid-cols-2">
-            <header className="flex flex-col h-full justify-center gap-4">
-              <p className="text-6xl">Hello, I&apos;m</p>
-              <h1 className="flex text-7xl mb-10 gap-4">
+            <header className="flex flex-col h-full justify-center gap-4 py-4">
+              <p className="text-4xl md:text-6xl">Hello, I&apos;m</p>
+              <h1 className="flex text-5xl md:text-7xl mb-10 gap-4">
                 <TextUnderline>Paulo</TextUnderline>Cunha
               </h1>
               <h2 className="text-2xl text-gray-400">
                 Software developer specializing in web apps
               </h2>
-              <div className="mt-10">
+              <div className="mt-10 text-end">
                 <a
                   href="https://www.linkedin.com/in/pauloracunha"
                   target="_blank"
@@ -125,7 +120,11 @@ export default function Home() {
                 </a>
               </div>
             </header>
-            <Image src={ProfilePic} alt="Paulo Cunha" />
+            <Image
+              className="hidden md:block"
+              src={ProfilePic}
+              alt="Paulo Cunha"
+            />
           </Section>
         </Container>
       </header>
@@ -145,45 +144,66 @@ export default function Home() {
           </Article>
         </Container>
       </Section>
-      <Section title="Technologies" className="py-12">
-        <Container className="grid grid-cols-3 gap-4">
-          {skills &&
-            Object.keys(skills).map((skill, index) => (
+      <Section className="py-12">
+        <Container>
+          <header className="max-w-6xl m-auto">
+            <h3 className="text-4xl mb-6">Technologies</h3>
+          </header>
+          <div className="flex flex-col md:grid md:grid-cols-3 gap-4">
+            {skills &&
+              Object.keys(skills).map((skill, index) => (
+                <Card
+                  key={index}
+                  title={skill.toUpperCase()}
+                  className="bg-gray-900 w-full"
+                >
+                  <ul className="text-xl leading-10 text-justify text-gray-400">
+                    {/* @ts-ignore */}
+                    {skills[skill].map((item, index) => (
+                      <li key={index}>{item}</li>
+                    ))}
+                  </ul>
+                </Card>
+              ))}
+          </div>
+        </Container>
+      </Section>
+      <Section className="py-12">
+        <Container>
+          <header>
+            <h3 className="text-4xl mb-6">Work Experience</h3>
+          </header>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {workExperience.map((experience, index) => (
               <Card
                 key={index}
-                title={skill.toUpperCase()}
+                title={experience.position}
                 className="bg-gray-900"
               >
+                <h3 className="text-2xl mb-6">{experience.dates}</h3>
                 <ul className="text-xl leading-10 text-justify text-gray-400">
-                  {/* @ts-ignore */}
-                  {skills[skill].map((item, index) => (
+                  {experience.responsibilities.map((item, index) => (
                     <li key={index}>{item}</li>
                   ))}
                 </ul>
               </Card>
             ))}
+          </div>
         </Container>
       </Section>
-      <Section title="Work Experience" className="py-12">
-        <Container className="grid grid-cols-3 gap-4">
-          {workExperience.map((experience, index) => (
-            <Card
-              key={index}
-              title={experience.position}
-              className="bg-gray-900"
-            >
-              <h3 className="text-2xl mb-6">{experience.dates}</h3>
-              <ul className="text-xl leading-10 text-justify text-gray-400">
-                {experience.responsibilities.map((item, index) => (
-                  <li key={index}>{item}</li>
-                ))}
-              </ul>
-            </Card>
-          ))}
+      <Section className="py-12">
+        <Container>
+          <header>
+            <h3 className="text-4xl mb-6">Other Skills</h3>
+          </header>
+          <ul className="text-xl leading-10 text-gray-400">
+            {otherSkills &&
+              otherSkills.map((skill) => <li key={skill}>{skill}</li>)}
+          </ul>
         </Container>
       </Section>
       <footer className="bg-gray-900 py-12">
-        <Container className="flex justify-between text-gray-400">
+        <Container className="flex justify-between flex-col-reverse gap-4 md:flex-row text-gray-400">
           <Link
             className="flex items-center gap-2 hover:text-gray-100 duration-200"
             href="mailto:paulo.racunha@gmail.com"
@@ -191,7 +211,7 @@ export default function Home() {
           >
             <FaMailBulk /> paulo.racunha@gmail.com
           </Link>
-          <p>2023 | Paulo Cunha</p>
+          <p className="hidden md:block">2023 | Paulo Cunha</p>
           <Link
             className="flex items-center gap-2 hover:text-gray-100 duration-200"
             href="https://api.whatsapp.com/send?phone=5581996587588"

@@ -6,12 +6,12 @@ export interface CardProps extends ArticleProps {
 }
 
 export default function Card({ title, children, tags, ...props }: CardProps) {
-  props.className = `max-w-sm rounded overflow-hidden shadow-lg ${props.className}`;
+  props.className = `rounded overflow-hidden shadow-lg ${props.className}`;
   return (
     <article {...props}>
       <div className="px-6 py-4">
         <h2 className="font-bold text-2xl mb-2">{title}</h2>
-        <p className="text-gray-700 text-base">{children}</p>
+        <div className="text-gray-700 text-base">{children}</div>
       </div>
       <div className="px-6 py-4">
         {tags &&
