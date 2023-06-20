@@ -12,8 +12,13 @@ import Tooltip from "@/components/Tooltip";
 import Vercel from "@/components/icons/Vercel";
 import Timeline from "@/components/Timeline";
 import { DarkThemeToggle, Flowbite } from "flowbite-react";
+import { useEffect } from "react";
+import { analytics } from "@/components/GTM";
 
 export default function Home() {
+  useEffect(() => {
+    analytics(window, document, 'script', 'dataLayer', 'GTM-THLV3N2');
+  })
   const skills = {
     frontend: [
       "JavaScript",
